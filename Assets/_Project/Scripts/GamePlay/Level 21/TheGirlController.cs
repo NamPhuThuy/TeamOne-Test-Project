@@ -12,6 +12,8 @@ namespace NamPhuThuy.Level21
     {
         #region Private Serializable Fields
 
+        [SerializeField] private GameObject pivotInteract;
+
         #endregion
 
         #region Private Fields
@@ -19,16 +21,6 @@ namespace NamPhuThuy.Level21
         #endregion
 
         #region MonoBehaviour Callbacks
-
-        void Start()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
 
         #endregion
 

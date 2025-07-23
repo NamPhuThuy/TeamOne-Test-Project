@@ -18,6 +18,8 @@ namespace NamPhuThuy
         [Header("Components")] 
         [SerializeField] private InteractableArea interactableArea;
         public InteractableArea InteractableArea => interactableArea;
+        [SerializeField] private GameObject highTrajectory;
+        public GameObject HighTrajectory => highTrajectory;
         
         #endregion
 
