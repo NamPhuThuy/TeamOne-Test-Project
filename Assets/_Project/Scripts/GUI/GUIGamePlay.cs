@@ -23,13 +23,14 @@ namespace NamPhuThuy
 
         [SerializeField] private float sliderDuration = 20f;
         
+        [SerializeField] private float levelDuration = 240f;
         [SerializeField] private TextMeshProUGUI textTimer;
         
         #endregion
 
         #region Private Fields
         private Coroutine sliderCoroutine;
-        
+        private Coroutine timerCoroutine;
 
         #endregion
 
@@ -38,11 +39,22 @@ namespace NamPhuThuy
         private void Start()
         {
             StartSliderTimer();
+            StartTextTimer();
         }
 
         #endregion
 
         #region Private Methods
+
+        
+        
+
+        private string FormatTime(float seconds)
+        {
+            int minutes = Mathf.FloorToInt(seconds / 60f);
+            int secs = Mathf.FloorToInt(seconds % 60f);
+            return $"{minutes:00}:{secs:00}";
+        }
         
         private IEnumerator FillSliderOverTime()
         {
@@ -55,11 +67,33 @@ namespace NamPhuThuy
                 yield return null;
             }
             sliderTimer.value = sliderTimer.maxValue;
+            
+            // LOSE THE GAME  
+            TriggerLose();
+        }
+        
+        private IEnumerator CountdownTextTimer()
+        {
+            float timeLeft = levelDuration;
+            while (timeLeft > 0f)
+            {
+                textTimer.text = FormatTime(Mathf.CeilToInt(timeLeft));
+                yield return null;
+                timeLeft -= Time.deltaTime;
+            }
+            textTimer.text = "0";
+            
+            // LOSE THE GAME
+            TriggerLose();
         }
         
         #endregion
 
         #region Public Methods
+        public void TriggerLose()
+        {
+            GUIManager.Ins.ShowGUI(GUIManager.Ins.GUIGameOver, false);
+        }
         
         public void StartSliderTimer()
         {
@@ -67,6 +101,14 @@ namespace NamPhuThuy
                 StopCoroutine(sliderCoroutine);
 
             sliderCoroutine = StartCoroutine(FillSliderOverTime());
+        }
+        
+        public void StartTextTimer()
+        {
+            if (timerCoroutine != null)
+                StopCoroutine(timerCoroutine);
+
+            timerCoroutine = StartCoroutine(CountdownTextTimer());
         }
 
         public void ResetSliderTimer()

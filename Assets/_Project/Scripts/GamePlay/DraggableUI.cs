@@ -31,6 +31,7 @@ namespace NamPhuThuy
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private Canvas canvas;
         [SerializeField] private UnityEvent onDragInTargetArea;
+        [SerializeField] private UnityEvent onActivated;
 
         [Header("Images")]
         [SerializeField] private Image objectImage;
@@ -86,7 +87,12 @@ namespace NamPhuThuy
         private IEnumerator IEOnDragInTargetArea()
         {
             yield return Yielders.Get(1.8f);
+            
+            onActivated?.Invoke();
+            
             ChangeObjectImageTo(activatedSprite);
+            GUIManager.Ins.GUIGamePlay.ResetSliderTimer();
+            
             
             switch (dragType)
             {
@@ -175,6 +181,8 @@ namespace NamPhuThuy
         public void OnEndDrag(PointerEventData eventData)
         {
             if (!isInteractable) return;
+            
+            
             if (RectTransformUtility.RectangleContainsScreenPoint(
                     GUIManager.Ins.GUIGamePlay.CurrentLevel.InteractableArea.RectTransform, rectTransform.position, canvas.worldCamera))
             {
