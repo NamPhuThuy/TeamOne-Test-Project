@@ -11,7 +11,7 @@ using UnityEditor;
 namespace NamPhuThuy
 {
     
-    public class GUIGamePlay : MonoBehaviour
+    public class GUIGamePlay : GUIBase
     {
         #region Private Serializable Fields
 
