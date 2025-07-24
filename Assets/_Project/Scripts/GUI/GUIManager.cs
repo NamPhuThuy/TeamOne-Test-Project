@@ -144,12 +144,10 @@ Performance Comparison:
 
         private void OnGUIShow()
         {
-            isShowingGUI = true;
         }
 
         private void OnGUIHide()
         {
-            isShowingGUI = false;
         }
 
         #endregion

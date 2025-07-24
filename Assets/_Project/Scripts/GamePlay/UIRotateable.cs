@@ -75,6 +75,12 @@ namespace NamPhuThuy
             StartCoroutine(IEActiveRotate());
         }
         
+        public void DeadActiveRotate()
+        {
+            Debug.Log("Dead Active Rotate");
+            StopAllCoroutines();
+        }
+        
         #endregion
     }
 

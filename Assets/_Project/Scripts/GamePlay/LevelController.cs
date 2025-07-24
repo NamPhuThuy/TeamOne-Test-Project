@@ -11,15 +11,21 @@ namespace NamPhuThuy
     public class LevelController : MonoBehaviour
     {
         #region Private Serializable Fields
+        
+        [Header("Stats")]
+        [SerializeField] private int objNeedToComplete = 7;
 
         [Header("Level information")]
-        [SerializeField] private int levelId = 0;
+        [SerializeField] private int levelId = 21;
 
         [Header("Components")] 
         [SerializeField] private InteractableArea interactableArea;
         public InteractableArea InteractableArea => interactableArea;
         [SerializeField] private GameObject highTrajectory;
         public GameObject HighTrajectory => highTrajectory;
+        
+        public PoliceController policeController;
+        [SerializeField] private KillerController killerController;
         
         #endregion
 
@@ -33,9 +39,31 @@ namespace NamPhuThuy
         #endregion
 
         #region Private Methods
+
+        private IEnumerator IECompleteLevel()
+        {
+            yield return Yielders.Get(5f);
+            GUIManager.Ins.ShowGUI(GUIManager.Ins.GUIGameOver, true);
+        }
+        
         #endregion
 
         #region Public Methods
+        
+        public void OnCompleteOneObject()
+        {
+            objNeedToComplete--;
+            if (objNeedToComplete <= 0)
+            {
+                StartCoroutine(IECompleteLevel());
+                policeController.ActivePoliceWarning();
+                
+                // Killer run away
+                killerController.ChangeState(KillerController.KillerState.RUN_AWAY);
+            }
+        }
+        
+        
         #endregion
 
         #region Editor Methods

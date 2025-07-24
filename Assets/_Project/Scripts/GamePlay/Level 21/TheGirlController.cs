@@ -12,7 +12,6 @@ namespace NamPhuThuy.Level21
     {
         #region Private Serializable Fields
 
-        [SerializeField] private GameObject pivotInteract;
 
         #endregion
 

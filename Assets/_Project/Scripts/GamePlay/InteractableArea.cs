@@ -14,6 +14,9 @@ namespace NamPhuThuy
 
         [SerializeField] private RectTransform rectTransform;
         public RectTransform RectTransform => rectTransform;
+        
+        [SerializeField] private RectTransform pivotInteract;
+        public RectTransform PivotInteract => pivotInteract;
         #endregion
 
         #region Private Fields

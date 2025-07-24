@@ -81,6 +81,8 @@ namespace NamPhuThuy
         private void OnDragInTargetArea()
         {
             isInteractable = false;
+            GUIManager.Ins.GUIGamePlay.ResetSliderTimer();
+            
             StartCoroutine(IEOnDragInTargetArea());
         }
         
@@ -110,8 +112,6 @@ namespace NamPhuThuy
                     Vector3 wp0 = draggableParent.InverseTransformPoint(wp0World);
                     Vector3 wp1 = draggableParent.InverseTransformPoint(wp1World);
                     
-                    /*Vector3 wp0 = ((RectTransform)waypointsParent.transform.GetChild(0)).anchoredPosition;
-                    Vector3 wp1 = ((RectTransform)waypointsParent.transform.GetChild(1)).anchoredPosition;*/
                     yield return StartCoroutine(MoveAlongWaypoints(wp0, wp1, 3f));
                     break;
                 case DragType.GetBackAfterActive:
@@ -186,6 +186,8 @@ namespace NamPhuThuy
             if (RectTransformUtility.RectangleContainsScreenPoint(
                     GUIManager.Ins.GUIGamePlay.CurrentLevel.InteractableArea.RectTransform, rectTransform.position, canvas.worldCamera))
             {
+                rectTransform.anchoredPosition =
+                    GUIManager.Ins.GUIGamePlay.CurrentLevel.InteractableArea.PivotInteract.anchoredPosition;
                 onDragInTargetArea?.Invoke();
                 Debug.Log("Drag onto the target area!");
                 return;

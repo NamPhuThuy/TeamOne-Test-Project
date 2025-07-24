@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,7 +12,7 @@ namespace NamPhuThuy
     
     public class KillerController : MonoBehaviour
     {
-        enum KillerState
+        public enum KillerState
         {
             PATROLLING,
             ATTACK,
@@ -29,6 +30,8 @@ namespace NamPhuThuy
         [SerializeField] private RectTransform waypointA;
         [SerializeField] private RectTransform waypointB;
         [SerializeField] private RectTransform rectTransform;
+        
+        [SerializeField] private SkeletonGraphic skeletonGraphic;
         
         [Header("Stats")]
         [SerializeField] private float moveSpeed = 2f;
@@ -65,6 +68,9 @@ namespace NamPhuThuy
                 case KillerState.ATTACK:
                     break;
                 case KillerState.RUN_AWAY:
+                    StopAllCoroutines();
+                    // skeletonGraphic.AnimationState.SetAnimation(0, "run", true);
+                    rectTransform.anchoredPosition += new Vector2(moveSpeed  * 120 * Time.deltaTime, 0f);
                     break;
             }
         }
@@ -135,6 +141,12 @@ namespace NamPhuThuy
         #endregion
 
         #region Public Methods
+
+        public void ChangeState(KillerState newState)
+        {
+            curretState = newState;
+        }
+        
         #endregion
 
         #region Editor Methods

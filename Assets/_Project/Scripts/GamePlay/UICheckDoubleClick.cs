@@ -14,7 +14,16 @@ namespace NamPhuThuy
     {
         #region Private Serializable Fields
 
+        [Header("Flags")]
+        [SerializeField] private bool isReActivate = false;
+        [SerializeField] private bool isActivated = false;
+        [SerializeField] private bool isAutoDeadactive = false;
+        
         [SerializeField] private UnityEvent onDoubleClick;
+        [SerializeField] private UnityEvent onDeadActive;
+        
+        
+        
         #endregion
 
         #region Private Fields
@@ -29,6 +38,12 @@ namespace NamPhuThuy
         #endregion
 
         #region Public Methods
+        
+        public void DeadActive()
+        {
+            onDeadActive?.Invoke();
+        }
+        
         #endregion
 
         #region Editor Methods
@@ -42,9 +57,15 @@ namespace NamPhuThuy
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (isActivated) return;
+        
             if (eventData.clickCount == 2)
             {
                 onDoubleClick?.Invoke();
+                isActivated = true;
+
+                if (isReActivate) isActivated = false;
+                if (isAutoDeadactive) Invoke("DeadActive", 3f);
                 Debug.Log("Double-click detected!");
             }
         }
